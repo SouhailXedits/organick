@@ -6,11 +6,14 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { UsersService } from './users.service';
-import { UUID } from 'crypto';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { RestrictTo } from 'src/utils/restrictTo.util';
+import { RolesGuard } from 'src/utils/roles.guard';
 
 @Controller('users')
 export class UsersController {
@@ -21,13 +24,15 @@ export class UsersController {
   }
 
   @Get()
+  @UseGuards(AuthGuard, RolesGuard)
+  @RestrictTo('admin')
   async findAll() {
-    return this.usersService.findAll()
+    return this.usersService.findAll();
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    console.log(id)
+    console.log(id);
     return this.usersService.findOne(id);
   }
 

@@ -72,7 +72,9 @@ export class AuthService {
     if (!user) {
       return null;
     }
-    return user;
+    const accessToken = this.generateAccessToken(user);
+    const refreshToken = this.generateRefreshToken(user);
+    return { user, accessToken, refreshToken };
   }
 
   async signUp(signUpDto: CreateUserDTO) {

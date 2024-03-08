@@ -5,9 +5,12 @@ import { User } from './user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { validationMiddleware } from 'src/validate-requst-body/validate.middleware';
 import { CreateUserDTO } from './dto/create-user.dto';
+import { AuthModule } from 'src/auth/auth.module';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
+  imports: [TypeOrmModule.forFeature([User]), JwtModule],
   exports: [UsersService, TypeOrmModule],
   controllers: [UsersController],
   providers: [UsersService],
