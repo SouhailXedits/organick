@@ -20,20 +20,28 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  findOneByEmail(email: string): Promise<any | null> {
-    return this.usersRepository.findOneBy({ email });
+  async findOneByEmail(email: string): Promise<any | null> {
+    console.log(email)
+
+      const user = await this.usersRepository.findOneBy({ email });
+      if (!user) {
+        throw new NotFoundException('User with that email not exist ! ', {
+          cause: new Error(),
+        });
+      }
+      return user;
+
   }
   async findOne(id: string): Promise<User | null> {
-    console.log(id)
+
     try {
       const user = await this.usersRepository.findOneBy({ id });
-      console.log(user)
       return user;
     } catch (error) {
       if (error.code === '22P02') {
-        throw new NotFoundException('User with that id not exist', {
+        throw new NotFoundException('User with that id not exist ! ', {
           cause: new Error(),
-        });0
+        });
       } else {
         throw error;
       }
@@ -47,7 +55,7 @@ export class UsersService {
       return created;
     } catch (error) {
       if (error.code === '23505' && error.detail.includes('already exists')) {
-        throw new BadRequestException('User with that email already exists', {
+        throw new BadRequestException('User with that email already exists ! ', {
           cause: new Error(),
         });
       } else {

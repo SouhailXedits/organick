@@ -11,15 +11,20 @@ export function validationMiddleware(dtoClass: any) {
 
 
     const errors = await validate(plainToClass(dtoClass, dto));
-    if (errors.length > 0) {
-      console.log(errors[0].constraints.isNotEmpty);
+    // if (errors.length > 0) {
+    //   console.log(errors[0].constraints.isNotEmpty);
 
+    //   const errorMessage = errors
+    //     .map((error: ValidationError) => {
+    //       return error?.constraints?.isNotEmpty;})
+    //     .join(', ');
+    //   console.log(errorMessage)
+    //   throw new HttpException(errorMessage, 400);
+    // }
+    if (errors.length > 0) {
       const errorMessage = errors
-        .map((error: ValidationError) => {
-          console.log(error.constraints)
-          return error?.constraints?.isNotEmpty;})
+        .map((error: ValidationError) => Object.values(error.constraints))
         .join(', ');
-      console.log(errorMessage)
       throw new HttpException(errorMessage, 400);
     }
     next();
