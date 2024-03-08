@@ -8,6 +8,7 @@ import { DataSource } from 'typeorm';
 import { User } from './users/user.entity';
 import { ProductModule } from './product/product.module';
 import { AuthModule } from './auth/auth.module';
+import { Product } from './product/product.entity';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -18,7 +19,7 @@ import { AuthModule } from './auth/auth.module';
       username: 'postgres',
       password: 'postgres',
       database: 'organick_db',
-      entities: [User],
+      entities: [User, Product],
       synchronize: true,
       autoLoadEntities: true,
     }),
@@ -30,8 +31,5 @@ import { AuthModule } from './auth/auth.module';
   providers: [AppService],
 })
 export class AppModule {
-  constructor(private dataSource: DataSource) {
-    // console.log('AppModule');
-    // console.log(process.env);
-  }
+  constructor(private dataSource: DataSource) {}
 }

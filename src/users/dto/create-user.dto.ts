@@ -1,6 +1,7 @@
 import {
   IsEmail,
   IsEnum,
+  IsIn,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -19,9 +20,10 @@ export class CreateUserDTO {
   @IsString()
   password: string;
 
-  @IsNotEmpty()
   @IsString()
-  @IsEnum(['user', 'admin'])
+  @IsOptional()
+  @IsNotEmpty()
+  @IsIn(['user', 'admin'])
   role: string;
 
   @IsOptional()

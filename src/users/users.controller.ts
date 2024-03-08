@@ -1,7 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { UsersService } from './users.service';
+import { UUID } from 'crypto';
 
 @Controller('users')
 export class UsersController {
@@ -13,12 +22,13 @@ export class UsersController {
 
   @Get()
   async findAll() {
-    return `This action returns all users`;
+    return this.usersService.findAll()
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string, @Body() createUserDto: CreateUserDTO) {
-    return `This action returns a #${id} user`;
+  async findOne(@Param('id') id: string) {
+    console.log(id)
+    return this.usersService.findOne(id);
   }
 
   @Delete(':id')
