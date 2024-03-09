@@ -1,5 +1,5 @@
 import { Product } from 'src/product/product.entity';
-import {Entity, PrimaryGeneratedColumn, Column, OneToMany} from 'typeorm';
+import {Entity, PrimaryGeneratedColumn, Column, OneToMany, Index, JoinColumn} from 'typeorm';
 
 @Entity({ name: 'users' })
 export class User {
@@ -21,6 +21,4 @@ export class User {
   @Column({ nullable: true })
   image: string;
 
-  @OneToMany((type) => Product, (product) => product.user, { nullable: true })
-  products: Product[];
 }

@@ -8,9 +8,10 @@ import { CreateUserDTO } from './dto/create-user.dto';
 import { AuthModule } from 'src/auth/auth.module';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
+import { ProductModule } from 'src/product/product.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), JwtModule],
+  imports: [TypeOrmModule.forFeature([User]), JwtModule, ProductModule],
   exports: [UsersService, TypeOrmModule],
   controllers: [UsersController],
   providers: [UsersService],

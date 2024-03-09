@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   UseGuards,
@@ -41,8 +42,10 @@ export class UsersController {
     return `This action removes a #${id} user`;
   }
 
-  @Put(':id')
+  @Patch(':id')
   async update(@Param('id') id: string, @Body() createUserDto: UpdateUserDTO) {
-    return `This action updates a #${id} user`;
+    return this.usersService.update(id, createUserDto);
   }
+
+  
 }

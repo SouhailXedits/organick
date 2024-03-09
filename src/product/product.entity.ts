@@ -1,5 +1,5 @@
 import { User } from 'src/users/user.entity';
-import {Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne} from 'typeorm'
+import {Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinTable, JoinColumn} from 'typeorm'
 
 @Entity()
 export class Product {
@@ -27,6 +27,10 @@ export class Product {
     @UpdateDateColumn()
     updated_at: Date;
 
-    @ManyToOne(() => User, (user) => user.products)
-    user: User
+    // @ManyToOne(() => User, (user) => user.products, {
+    //     cascade: true,
+    //     eager: true
+    // })
+    // @JoinColumn()
+    // user: User;
 }

@@ -15,6 +15,5 @@ export class ReadUserDTO {
     this.email = user.email;
     this.role = user.role;
     this.image = user.image;
-    this.products = user.products; 
   }
 }
