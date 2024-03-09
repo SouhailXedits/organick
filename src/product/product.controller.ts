@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, NotFoundException, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from './product.entity';
 import { RestrictTo } from 'src/utils/restrictTo.util';
@@ -10,8 +10,12 @@ export class ProductController {
   constructor(private productService: ProductService) {}
 
   @Get()
-  async findAll(): Promise<Product[]> {
-    return this.productService.findAll();
+  async findAll(@Query() query: any): Promise<Product[]> {
+    if (Object.keys(query).length === 0) {
+      return this.productService.findAll();
+    } else {
+      return this.productService.findMany(query);
+    }
   }
 
   @Post()
@@ -23,7 +27,6 @@ export class ProductController {
 
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<Product> {
-    console.log(id);
     return this.productService.findOne(id);
   }
 
@@ -43,5 +46,15 @@ export class ProductController {
     @Body() product: Product,
   ): Promise<Product> {
     return this.productService.update(id, product);
+  }
+
+  @Post(':id/categories')
+  @UseGuards(AuthGuard, RolesGuard)
+  @RestrictTo('admin')
+  async addCategoriesTOProduct(
+    @Param('id') id: number,
+    @Body('categoriesIds') categoriesIds: number[],
+  ): Promise<Product> {
+    return this.productService.addCategoriesTOProduct(id, categoriesIds);
   }
 }

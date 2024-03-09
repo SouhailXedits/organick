@@ -10,6 +10,8 @@ import { ProductModule } from './product/product.module';
 import { AuthModule } from './auth/auth.module';
 import { Product } from './product/product.entity';
 import configuration from 'config/configuration';
+import { Category } from './category/category.entity';
+import { CategoriesModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -27,7 +29,7 @@ import configuration from 'config/configuration';
         username: 'postgres',
         password: 'postgres',
         database: 'organick_db',
-        entities: [User, Product],
+        entities: [User, Product, Category],
         synchronize: true,
         autoLoadEntities: true,
       }),
@@ -35,6 +37,7 @@ import configuration from 'config/configuration';
     }),
     UsersModule,
     ProductModule,
+    CategoriesModule,
     AuthModule,
   ],
   controllers: [AppController],
