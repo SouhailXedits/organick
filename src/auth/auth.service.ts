@@ -85,4 +85,12 @@ export class AuthService {
     const refreshToken = this.generateRefreshToken(newUser);
     return { user: newUser, accessToken, refreshToken };
   }
+
+
+  async signOut() {
+    return {
+      refreshToken: null,
+      accessToken: null,
+    }
+  }
 }

@@ -21,4 +21,6 @@ export class User {
   @Column({ nullable: true })
   image: string;
 
+  @Column({default: 0})
+  balance: number;
 }

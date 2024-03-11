@@ -43,8 +43,8 @@ export class UsersController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() createUserDto: UpdateUserDTO) {
-    return this.usersService.update(id, createUserDto);
+  async update(@Param('id') id: string, @Body() updateUserDTO: UpdateUserDTO) {
+    return this.usersService.update(id, updateUserDTO);
   }
 
   

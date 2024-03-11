@@ -17,4 +17,10 @@ export class AuthController {
     console.log(signUpDto);
     return this.authService.signUp(signUpDto);
   }
+
+  @Post('signout')
+  @HttpCode(HttpStatus.OK)
+  signOut() {
+    return this.authService.signOut();
+  }
 }
