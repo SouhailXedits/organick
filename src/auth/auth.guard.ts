@@ -22,7 +22,6 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
-    console.log(token)
     if (!token) {
       throw new UnauthorizedException('Authorization token not found');
     }
@@ -30,20 +29,12 @@ export class AuthGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: this.jwtConstants.secret,
       });
-
       const isAccessTokenExpired = this.isTokenExpired(payload.exp);
-      console.log(isAccessTokenExpired)
-
-
       const refreshToken = this.extractRefreshTokenFromHeader(request);
-      console.log(refreshToken)
       if (isAccessTokenExpired && refreshToken) {
-        // Implement logic to validate the refresh token
         const isRefreshTokenValid = this.isValidRefreshToken(refreshToken);
         if (isRefreshTokenValid) {
-          // Generate new access token using refresh token
           const newAccessToken = this.generateAccessToken(payload.user);
-          // Assign the new access token to the request
           request.accessToken = newAccessToken;
         }
       }
