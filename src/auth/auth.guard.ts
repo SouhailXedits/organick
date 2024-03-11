@@ -25,23 +25,26 @@ export class AuthGuard implements CanActivate {
     if (!token) {
       throw new UnauthorizedException('Authorization token not found');
     }
+
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: this.jwtConstants.secret,
-      });
+      const payload = await this.jwtService.decode(token);
       const isAccessTokenExpired = this.isTokenExpired(payload.exp);
+      // const payload = await this.jwtService.verifyAsync(token, {
+      //   secret: this.jwtConstants.secret,
+      // });
+      // console.log(payload)
       const refreshToken = this.extractRefreshTokenFromHeader(request);
       if (isAccessTokenExpired && refreshToken) {
         const isRefreshTokenValid = this.isValidRefreshToken(refreshToken);
         if (isRefreshTokenValid) {
-          const newAccessToken = this.generateAccessToken(payload.user);
+          const newAccessToken = this.generateAccessToken({...payload});
           request.accessToken = newAccessToken;
         }
       }
 
       request['user'] = payload;
     } catch (error) {
-      throw new UnauthorizedException('Invalid token');
+      throw new UnauthorizedException('Invalid token ! ');
     }
     return true;
   }
@@ -66,7 +69,8 @@ export class AuthGuard implements CanActivate {
   }
 
   private isValidRefreshToken(refreshToken: string): boolean {
-    return true; 
+    const decoded = this.jwtService.decode(refreshToken);
+    return Date.now() >= decoded.exp;
   }
 
   private generateAccessToken(user) {
