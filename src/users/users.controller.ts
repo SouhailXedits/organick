@@ -33,7 +33,6 @@ export class UsersController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    console.log(id);
     return this.usersService.findOne(id);
   }
 

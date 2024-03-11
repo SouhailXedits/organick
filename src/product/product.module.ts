@@ -7,12 +7,15 @@ import { JwtModule } from '@nestjs/jwt';
 import { validationMiddleware } from 'src/validate-requst-body/validate.middleware';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { AuthModule } from 'src/auth/auth.module';
+import { AuthGuard } from '@nestjs/passport';
+import { AuthService } from 'src/auth/auth.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Product]), JwtModule],
   exports: [ProductService, TypeOrmModule],
   providers: [ProductService],
-  controllers: [ProductController]
+  controllers: [ProductController],
 })
 export class ProductModule {
   configure(consumer: MiddlewareConsumer) {
@@ -20,6 +23,6 @@ export class ProductModule {
       .apply(validationMiddleware(CreateProductDto))
       .forRoutes({ path: '/products', method: RequestMethod.POST })
       .apply(validationMiddleware(UpdateProductDto))
-      .forRoutes({ path: '/products/:id', method: RequestMethod.PUT })
+      .forRoutes({ path: '/products/:id', method: RequestMethod.PUT });
   }
 }
