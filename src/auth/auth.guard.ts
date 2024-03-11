@@ -70,6 +70,7 @@ export class AuthGuard implements CanActivate {
 
   private isValidRefreshToken(refreshToken: string): boolean {
     const decoded = this.jwtService.decode(refreshToken);
+    console.log(decoded)
     return Date.now() >= decoded.exp;
   }
 
