@@ -20,4 +20,8 @@ export class UpdateUserDTO {
   @IsOptional()
   @IsString()
   image?: string;
+
+  @IsOptional()
+  @IsString()
+  balance?: number;
 }
